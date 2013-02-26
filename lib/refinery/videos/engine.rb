@@ -28,7 +28,24 @@ module Refinery
         require 'refinery/videos/dialogs_controller'
       end
       config.after_initialize do
+        Refinery::Pages::Tab.register do |tab|
+          register tab
+        end
+
+        if defined?(Refinery::Blog::Tab)
+          Refinery::Blog::Tab.register do |tab|
+            register tab
+          end
+        end
+
         Refinery.register_extension(Refinery::Videos)
+      end
+
+      ####################################################################################
+      # PageVideos
+      def self.register(tab)
+        tab.name = "videos"
+        tab.partial = "/refinery/admin/pages/tabs/videos"
       end
     end
   end
