@@ -22,7 +22,17 @@ module Refinery
       def factory_paths
         @factory_paths ||= [ root.join('spec', 'factories').to_s ]
       end
+
+      def attach!
+        require 'refinery/page'
+        require 'refinery/videos/page_videos'
+        Refinery::Page.send :has_many_page_videos
+        Refinery::Blog::Post.send :has_many_page_videos if defined?(::Refinery::Blog)
+        #Refinery::Image.send :has_many, :image_pages, :dependent => :destroy
+      end
     end
+
+    require 'refinery/videos/engine'
   end
 end
 

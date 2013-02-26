@@ -47,6 +47,12 @@ module Refinery
         tab.name = "videos"
         tab.partial = "/refinery/admin/pages/tabs/videos"
       end
+
+      initializer "refinery.videos.attach" do
+        ActiveSupport.on_load(:active_record) do
+          Refinery::Videos.attach!
+        end
+      end
     end
   end
 end
