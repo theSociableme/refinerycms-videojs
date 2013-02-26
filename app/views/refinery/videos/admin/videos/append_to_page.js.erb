@@ -1,0 +1,10 @@
+debugger;
+var video = {};
+video.id = <%= @video.id %>;
+video.title = "<%= @video.title %>";
+video.url = "<%= @video.try(:poster).try(:url) %>";
+
+parent.added_video(video);
+
+close_dialog();
+wym.close_dialog();

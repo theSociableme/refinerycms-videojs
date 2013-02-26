@@ -1,0 +1,15 @@
+<div class='wym_box field videos_field'>
+  <ul id='page_videos' class='clearfix'>
+    <%= f.fields_for :videos do |video_form| %>
+      <li id='video_<%= video_form.object.id %>'>
+        <%= video_form.hidden_field :id %>
+        <%= image_tag video_form.object.try(:poster).try(:url), :size => "135x135" %>
+        <% index = video_form.object_name.split('[').last.split(']').first.to_i %>
+        <%= hidden_field_tag "#{f.object_name.demodulize}[videos_attributes][#{index}][video_page_id]", f.object.video_page_id_for_video_index(index) %>
+      </li>
+    <% end %>
+    <li class='empty_video'>
+      <%= hidden_field_tag "#{f.object_name.demodulize}[videos_attributes][#{f.object.videos.size}][id]" %>
+    </li>
+  </ul>
+</div>

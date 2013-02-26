@@ -11,6 +11,7 @@ Refinery::Core::Engine.routes.append do
     namespace :admin, :path => 'refinery' do
       resources :videos do
         post :append_to_wym
+        post :append_to_page
         collection do
           post :update_positions
           get :insert

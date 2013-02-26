@@ -24,6 +24,7 @@ module Refinery
           search_all_videos if searching?
           find_all_videos
           paginate_videos
+          @insert_way = params[:insert_way]
         end
 
         def append_to_wym
@@ -34,6 +35,15 @@ module Refinery
           @html_for_wym = @video.to_html
         end
 
+        def append_to_page
+          @video = Video.find(params[:video_id])
+          params['video'].each do |key, value|
+            @video.config[key.to_sym] = value
+          end
+
+          #render :json => @video.to_json
+        end
+
         def dialog_preview
           @video = Video.find(params[:id].delete('video_'))
           w, h = @video.config[:width], @video.config[:height]
@@ -41,6 +51,7 @@ module Refinery
           @preview_html = @video.to_html
           @video.config[:width], @video.config[:height] = w, h
           @embedded = true if @video.use_shared
+          @insert_way = params[:insert_way]
         end
 
         private
