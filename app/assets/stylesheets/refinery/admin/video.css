@@ -1,8 +1,9 @@
-.wym_skin_refinery .wym_section li.wym_tools_add_video a{
+.wym_skin_refinery .wym_section li.wym_tools_add_video a, #add_video_link{
     height: 24px;
     background-image: url('/assets/refinery/admin/add_video_icon.png');
     background-repeat: no-repeat;
     padding-left: 24px;
+    margin-top: 4px;
 }
 
 label.inline{
