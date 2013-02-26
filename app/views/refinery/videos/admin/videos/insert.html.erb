@@ -1,5 +1,5 @@
 <div id='dialog_list'>
-  <%= render '/refinery/admin/search', :url => refinery.insert_videos_admin_videos_path %>
+  <%= render '/refinery/admin/search', :url => refinery.insert_videos_admin_videos_path(:insert_way => @insert_way) %>
   <div id='records'>
     <%= render 'videos' %>
   </div>
@@ -17,7 +17,7 @@
 <script type="text/javascript">
     $(function(){
         $('#submit_button').on('click', function(){
-            $('#preview_form form').submit();
+          $('#preview_form form').submit();
         })
     });
 
@@ -28,7 +28,7 @@
             $videos.removeClass('selected');
             $(this).addClass('selected');
             var id = $(this).attr('id');
-            $.get('<%= refinery.dialog_preview_videos_admin_videos_path %>', {'id' : id}, null, 'script')
+            $.get('<%= refinery.dialog_preview_videos_admin_videos_path %>', {'id' : id, 'insert_way': "<%= @insert_way %>"}, null, 'script')
         })
     })
 </script>

@@ -24,6 +24,7 @@ module Refinery
           search_all_videos if searching?
           find_all_videos
           paginate_videos
+          @insert_way = params[:insert_way]
         end
 
         def append_to_wym
@@ -41,6 +42,7 @@ module Refinery
           @preview_html = @video.to_html
           @video.config[:width], @video.config[:height] = w, h
           @embedded = true if @video.use_shared
+          @insert_way = params[:insert_way]
         end
 
         private
