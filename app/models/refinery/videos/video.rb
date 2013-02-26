@@ -16,6 +16,9 @@ module Refinery
       belongs_to :poster, :class_name => '::Refinery::Image'
       accepts_nested_attributes_for :poster
 
+      ################## VideoPage
+      has_many :image_pages, :dependent => :destroy
+
       ################## Video config options
       serialize :config, Hash
       CONFIG_OPTIONS = {
