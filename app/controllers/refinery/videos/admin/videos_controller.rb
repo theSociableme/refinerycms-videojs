@@ -35,6 +35,15 @@ module Refinery
           @html_for_wym = @video.to_html
         end
 
+        def append_to_page
+          @video = Video.find(params[:video_id])
+          params['video'].each do |key, value|
+            @video.config[key.to_sym] = value
+          end
+
+          #render :json => @video.to_json
+        end
+
         def dialog_preview
           @video = Video.find(params[:id].delete('video_'))
           w, h = @video.config[:width], @video.config[:height]
