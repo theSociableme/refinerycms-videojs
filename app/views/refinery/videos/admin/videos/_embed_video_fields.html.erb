@@ -1,6 +1,21 @@
 <div class='field'>
+  <%= f.label 'Vimeo Url' %>
+  <%= f.text_field :vimeo_url %>
+</div>
+<div class='field'>
+  <%= f.label :poster_url %>
+  <%= f.text_field :poster_url %>
+</div>
+<div class='field'>
   <%= f.label t('.copy_embed_tag_here') %>
-  <%= f.text_area :embed_tag, :class => 'embed_tag', :required => true %>
+  <span>If not blank, embed html will use this and the description should be filled. </span><br/>
+  <span>Otherwise, the html and description will be get from the url</span>
+  <br/>
+  <%= f.text_area :embed_tag, :class => 'embed_tag' %>
+</div>
+<div class='field'>
+  <%= f.label :description %>
+  <%= f.text_area :description, :class => 'vimeo_desc'%>
 </div>
 <%= f.hidden_field :use_shared, :value => true %>
 
@@ -16,6 +31,7 @@
             set_in_text_area_width('height', $(this));
         });
 
+        $('.vimeo_desc').css('height', '100px');
 
     });
 
