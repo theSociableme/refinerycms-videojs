@@ -2,7 +2,7 @@ debugger;
 var video = {};
 video.id = <%= @video.id %>;
 video.title = "<%= @video.title %>";
-video.url = "<%= @video.try(:poster).try(:url) %>";
+video.url = "<%= @video.try(:poster).try(:url) || @video.try(:poster_url) %>";
 
 parent.added_video(video);
 

@@ -17,7 +17,7 @@ module Refinery
       accepts_nested_attributes_for :poster
 
       ################## VideoPage
-      has_many :image_pages, :dependent => :destroy
+      #has_many :vidoes_pages, :dependent => :destroy
 
       ################## Video config options
       serialize :config, Hash
@@ -28,7 +28,8 @@ module Refinery
 
       attr_accessible :title, :poster_id, :video_files_attributes,
                       :position, :config, :embed_tag, :use_shared,
-                      *CONFIG_OPTIONS.keys
+                      *CONFIG_OPTIONS.keys, :vimeo_url, :description, :poster_url
+      attr_accessor :vimeo_url
 
       # Create getters and setters
       CONFIG_OPTIONS.keys.each do |option|
@@ -44,6 +45,30 @@ module Refinery
       ########################### Callbacks
       after_initialize :set_default_config
       #####################################
+
+      before_save :set_vimeo
+      def set_vimeo
+        if self.embed_tag.blank?
+          height = self.config[:height]
+          width = self.config[:width]
+          url = URI.parse('http://vimeo.com')
+          data = Net::HTTP.start(url.host, url.port) do |http|
+            http.get("/api/oembed.json?url=#{vimeo_url}&width=#{width}&height=#{height}&title=false&portrait=false&byline=false")
+          end
+          parsed_data = ActiveSupport::JSON.decode(data.body)
+          self.embed_tag = parsed_data['html']
+        end
+        if self.description.blank?
+          unless parsed_data.blank?
+            self.description = parsed_data['description']
+          end
+        end
+        if self.poster_url.blank?
+          unless parsed_data.blank?
+            self.poster_url = parsed_data['thumbnail_url']
+          end
+        end
+      end
 
       def to_html
         if use_shared
