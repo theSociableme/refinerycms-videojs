@@ -1,4 +1,5 @@
 require 'dragonfly'
+require 'net/http'
 
 module Refinery
   module Videos
@@ -46,7 +47,7 @@ module Refinery
       after_initialize :set_default_config
       #####################################
 
-      before_save :set_vimeo
+      #before_save :set_vimeo
       def set_vimeo
         if self.embed_tag.blank?
           height = self.config[:height]
@@ -87,13 +88,16 @@ module Refinery
         sources = []
         video_files.each do |file|
           if file.use_external
-            sources << ["<source src='#{file.external_url}' type='#{file.file_mime_type}'/>"]
+            sources << [%Q{<source src="#{file.external_url}" type="#{file.file_mime_type}"/>}]
           else
-            sources << ["<source src='#{file.url}' type='#{file.file_mime_type}'/>"]
+            sources << [%Q{<source src="#{file.url}" type="#{file.file_mime_type}"/>}]
           end if file.exist?
         end
-        html = %Q{<video id="video_#{self.id}" class="video-js #{Refinery::Videos.skin_css_class}" width="#{config[:width]}" height="#{config[:height]}" data-setup=' {#{data_setup.join(',')}}'>#{sources.join}</video>}
-
+        if sources.empty?
+          raise "we have a problem"
+        end
+        html = %Q{<video id="video_#{self.id}" class="video-js #{Refinery::Videos.skin_css_class}" width="#{config[:width]}" height="#{config[:height]}" data-setup='{#{data_setup.join(',')}}'>#{sources.join}</video>}
+        #html = %Q{<div class="flowplayer"><video>#{sources.join}</video></div>}
         html.html_safe
       end
 

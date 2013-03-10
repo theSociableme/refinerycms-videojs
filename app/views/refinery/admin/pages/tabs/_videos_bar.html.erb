@@ -7,3 +7,9 @@
                 :id => "add_video_link" %>
   </span>
 </div>
+
+
+<% content_for :stylesheets, stylesheet_link_tag('http://vjs.zencdn.net/c/video-js.css') %>
+<% content_for :javascripts do %>
+  <%= javascript_include_tag('http://vjs.zencdn.net/c/video.js') %>
+<% end %>
